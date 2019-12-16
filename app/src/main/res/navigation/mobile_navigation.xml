@@ -9,17 +9,17 @@
         android:id="@+id/AppDrawer1"
         android:name="com.example.signmeinfyp.ui.MyClasses.MyClassesFragment"
         android:label="@string/menu_myclasses"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_my_classes" />
 
     <fragment
         android:id="@+id/AppDrawer2"
         android:name="com.example.signmeinfyp.ui.Calendar.CalendarFragment"
         android:label="@string/menu_calendar"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_calendar" />
 
     <fragment
         android:id="@+id/Settings"
         android:name="com.example.signmeinfyp.ui.Settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_settings" />
 </navigation>
