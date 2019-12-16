@@ -1,16 +1,16 @@
-package com.example.signmeinfyp.ui.slideshow;
+package com.example.signmeinfyp.ui.MyClasses;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class MyClassesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public MyClassesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("MyClasses");
     }
 
     public LiveData<String> getText() {

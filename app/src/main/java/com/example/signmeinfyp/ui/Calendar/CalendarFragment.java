@@ -1,4 +1,4 @@
-package com.example.signmeinfyp.ui.gallery;
+package com.example.signmeinfyp.ui.Calendar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,22 +14,23 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.signmeinfyp.R;
 
-public class GalleryFragment extends Fragment {
+public class CalendarFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private CalendarViewModel mCalendarViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        mCalendarViewModel = ViewModelProviders.of(this).get(CalendarViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
+
+        mCalendarViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 }

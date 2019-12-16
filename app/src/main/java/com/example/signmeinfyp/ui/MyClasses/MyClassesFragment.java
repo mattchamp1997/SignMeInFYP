@@ -1,4 +1,4 @@
-package com.example.signmeinfyp.ui.home;
+package com.example.signmeinfyp.ui.MyClasses;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,22 +14,23 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.signmeinfyp.R;
 
-public class HomeFragment extends Fragment {
+public class MyClassesFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private MyClassesViewModel myClassesHomeModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        myClassesHomeModel = ViewModelProviders.of(this).get(MyClassesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+
+        myClassesHomeModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 }
