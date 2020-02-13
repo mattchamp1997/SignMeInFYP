@@ -1,7 +1,6 @@
 package com.example.signmeinfyp;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,9 +28,12 @@ public class Register extends AppCompatActivity {
         RegPasswordVerify = findViewById(R.id.RegPasswordVerify);
         register = findViewById(R.id.registerConfirm);
 
+        //When register button clicked
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //If fields fullname, email OR password are empty, dialog box will popup asking the user to fill all fields
                 if(fullName.getText().toString().equals("") || email.getText().toString().equals("") || RegPassword.getText().toString().equals(""))
                 {
                     builder = new AlertDialog.Builder(Register.this);
@@ -51,6 +53,7 @@ public class Register extends AppCompatActivity {
                     alertDialog.show();
                 }
 
+                //If passwords do not match, create popup to notify user
                 else if (! RegPassword.getText().toString().equals(RegPasswordVerify.getText().toString()))
                 {
                     builder = new AlertDialog.Builder(Register.this);
@@ -72,14 +75,12 @@ public class Register extends AppCompatActivity {
                     alertDialog.show();
 
                 }
+                else
+                {
+                    BackgroundTask backgroundTask = new BackgroundTask(Register.this);
+                    backgroundTask.execute("register", fullName.getText().toString(), email.getText().toString(), RegIdNumber.getText().toString(), RegPassword.getText().toString());
+                }
             }
         });
-    }
-
-    private void returnToLogin()
-    {
-        Intent intent = new Intent(this, LoginPage.class);
-        startActivity(intent);
-
     }
 }
