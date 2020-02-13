@@ -25,7 +25,7 @@ public class LoginPage extends AppCompatActivity
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.register);
 
-        LoginIdNumber.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginPage.this, Register.class));
@@ -39,18 +39,6 @@ public class LoginPage extends AppCompatActivity
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerIntent();
-            }
-        });
-    }
-
-    private void registerIntent()
-    {
-        Intent intent = new Intent(this, Register.class);
-        startActivity(intent);
     }
 
     private void loginIntent()

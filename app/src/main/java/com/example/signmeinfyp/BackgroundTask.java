@@ -37,7 +37,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     {
         this.ctx = ctx;
         activity = (Activity)ctx;
-
     }
 
 
@@ -45,6 +44,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     protected void onPreExecute()
     {
         builder = new AlertDialog.Builder(activity);
+
         progressDialog = new ProgressDialog(ctx);
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Connecting to server");
@@ -64,7 +64,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             {
                 URL url = new URL(register_url);
 
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
 
                 httpURLConnection.setDoOutput(true);
@@ -72,7 +72,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
 
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
                 String fullName = params[1];
                 String email = params[2];
@@ -88,6 +88,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+
+                //Get server response - successful insert or not
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder stringBuilder = new StringBuilder();
@@ -104,6 +106,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 return stringBuilder.toString().trim();
             }
+
 
             catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -127,6 +130,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
         try
         {
             progressDialog.dismiss();
+
             JSONObject jsonObject = new JSONObject(json);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
             JSONObject JO = jsonArray.getJSONObject(0);
@@ -146,7 +150,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
         {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -175,7 +178,5 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
-
     }
-
 }

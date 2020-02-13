@@ -29,12 +29,14 @@ public class Register extends AppCompatActivity {
         register = findViewById(R.id.registerConfirm);
 
         //When register button clicked
-        register.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
-                //If fields fullname, email OR password are empty, dialog box will popup asking the user to fill all fields
-                if(fullName.getText().toString().equals("") || email.getText().toString().equals("") || RegPassword.getText().toString().equals(""))
+                //If fields fullname, email, IDNum OR password are empty, dialog box will popup asking the user to fill all fields
+                if(fullName.getText().toString().equals("") || email.getText().toString().equals("") || RegIdNumber.getText().toString().equals("") || RegPassword.getText().toString().equals(""))
                 {
                     builder = new AlertDialog.Builder(Register.this);
                     builder.setTitle("Something went wrong...");
