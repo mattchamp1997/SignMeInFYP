@@ -2,11 +2,9 @@ package com.example.signmeinfyp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +32,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     Activity activity;
 
     AlertDialog.Builder builder;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     public BackgroundTask(Context ctx)
     {
@@ -117,7 +115,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 //Thread.sleep(5000);
             }
 
-
             catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -135,13 +132,15 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     @Override
     protected void onPostExecute(String json)
     {
-        Toast.makeText(ctx,json,Toast.LENGTH_LONG).show();
+        //Toast.makeText(ctx,json,Toast.LENGTH_LONG).show();
 
         try
         {
             //progressDialog.dismiss();
+            //Line to remove HTML tags from JSON
+            String nohtml = android.text.Html.fromHtml(json).toString();
 
-            JSONObject jsonObject = new JSONObject(json);
+            JSONObject jsonObject = new JSONObject(nohtml);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
             JSONObject JO = jsonArray.getJSONObject(0);
