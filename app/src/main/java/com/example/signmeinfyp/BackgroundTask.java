@@ -4,12 +4,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +32,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
     Context ctx;
     Activity activity;
+
     AlertDialog.Builder builder;
     ProgressDialog progressDialog;
 
@@ -38,17 +46,16 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     @Override
     protected void onPreExecute()
     {
-        /*
-        builder = new AlertDialog.Builder(activity);
+        builder = new AlertDialog.Builder(ctx);
 
+        /*
         progressDialog = new ProgressDialog(ctx);
         progressDialog.setTitle("Please wait");
         progressDialog.setMessage("Connecting to server");
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
-         */
+        */
     }
 
     @Override
@@ -71,7 +78,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 httpURLConnection.setRequestMethod("POST");
 
                 httpURLConnection.setDoOutput(true);
-                //httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoInput(true);
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
 
@@ -90,26 +97,24 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 //Get server response - successful insert or not
                 InputStream inputStream = httpURLConnection.getInputStream();
-                inputStream.close();
 
-                //httpURLConnection.disconnect();
-                return "Registration Success";
-                /*BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
                 StringBuilder stringBuilder = new StringBuilder();
                 String line = "";
-                 */
 
-                /*
                 while ((line=bufferedReader.readLine()) !=null)
                 {
                     stringBuilder.append(line+"\n");
-                }*/
+                }
 
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+                //inputStream.close();
+                //return "Registration Success";
                 //httpURLConnection.disconnect();
-
                 //Thread.sleep(5000);
-
-                //return stringBuilder.toString().trim();
             }
 
 
@@ -128,17 +133,17 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     }
 
     @Override
-    protected void onPostExecute(String result)
+    protected void onPostExecute(String json)
     {
-        Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
+        Toast.makeText(ctx,json,Toast.LENGTH_LONG).show();
 
-        /*
         try
         {
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
 
-            JSONObject jsonObject = new JSONObject(result);
+            JSONObject jsonObject = new JSONObject(json);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+
             JSONObject JO = jsonArray.getJSONObject(0);
             String code = JO.getString("code");
             String message = JO.getString("message");
@@ -147,11 +152,12 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             {
                 showDialog("Registration Successful", message,code);
             }
-            else if (code.equals("reg_false"))
+            else if(code.equals("reg_false"))
             {
                 showDialog("Registration Failed", message,code);
             }
         }
+
         catch (JSONException e)
         {
             e.printStackTrace();
@@ -183,6 +189,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }*/
+        }
     }
 }
