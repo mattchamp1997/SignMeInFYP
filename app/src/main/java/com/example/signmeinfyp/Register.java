@@ -79,8 +79,16 @@ public class Register extends AppCompatActivity {
                 }
                 else
                 {
+                    String name = fullName.getText().toString();
+                    String regemail = email.getText().toString();
+                    String id = RegIdNumber.getText().toString();
+                    String pass = RegPassword.getText().toString();
+                    String method = "register";
+
                     BackgroundTask backgroundTask = new BackgroundTask(Register.this);
-                    backgroundTask.execute("register", fullName.getText().toString(), email.getText().toString(), RegIdNumber.getText().toString(), RegPassword.getText().toString());
+                    backgroundTask.execute(method,name,regemail,id,pass);
+
+                    finish();
                 }
             }
         });
