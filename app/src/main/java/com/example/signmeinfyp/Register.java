@@ -88,7 +88,7 @@ public class Register extends AppCompatActivity {
                     BackgroundTask backgroundTask = new BackgroundTask(Register.this);
                     backgroundTask.execute(method,name,regemail,id,pass);
 
-                    finish();
+                    //finish();
                 }
             }
         });

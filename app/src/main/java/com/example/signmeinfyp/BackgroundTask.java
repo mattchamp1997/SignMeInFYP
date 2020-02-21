@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import java.net.URLEncoder;
 public class BackgroundTask extends AsyncTask<String,Void,String>
 {
     String register_url = "http://mattfyp.000webhostapp.com/register.php";
+    String login_url = "http://mattfyp.000webhostapp.com/login.php";
 
     Context ctx;
     Activity activity;
@@ -96,7 +98,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 //Get server response - successful insert or not
                 InputStream inputStream = httpURLConnection.getInputStream();
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+                //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 StringBuilder stringBuilder = new StringBuilder();
                 String line = "";
@@ -132,13 +135,13 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     @Override
     protected void onPostExecute(String json)
     {
-        //Toast.makeText(ctx,json,Toast.LENGTH_LONG).show();
-
         try
         {
             //progressDialog.dismiss();
             //Line to remove HTML tags from JSON
             String nohtml = android.text.Html.fromHtml(json).toString();
+
+            Toast.makeText(ctx,nohtml,Toast.LENGTH_LONG).show();
 
             JSONObject jsonObject = new JSONObject(nohtml);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
