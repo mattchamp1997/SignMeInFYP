@@ -32,19 +32,35 @@ public class LoginPage extends AppCompatActivity
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        /*loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginIntent();
+
+                String method = "Login";
+                BackgroundTask backgroundTask = new BackgroundTask(LoginPage.this);
+                backgroundTask.execute(method);
+            }
+        });*/
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String idNum = LoginIdNumber.getText().toString();
+                String pass = LoginPassword.getText().toString();
+                String method = "login";
+
+                BackgroundTask backgroundTask = new BackgroundTask(LoginPage.this);
+                backgroundTask.execute(method,idNum,pass);
             }
         });
 
     }
 
-    private void loginIntent()
+    /*private void loginIntent()
     {
         Intent intent = new Intent(this, MyClasses.class);
         startActivity(intent);
-    }
+    }*/
 
 }

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -63,6 +65,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     {
         String method = params[0];
 
+        //For Register
         if (method.equals("register"))
         {
             String fullName = params[1];
@@ -99,7 +102,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 InputStream inputStream = httpURLConnection.getInputStream();
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
-                //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 StringBuilder stringBuilder = new StringBuilder();
                 String line = "";
@@ -116,6 +118,63 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 //return "Registration Success";
                 //httpURLConnection.disconnect();
                 //Thread.sleep(5000);
+            }
+
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //For Login
+        else if (method.equals("login"))
+        {
+            try
+            {
+                URL url = new URL(login_url);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+
+                String idNum,password;
+                idNum = params[1];
+                password = params[2];
+
+                String data = URLEncoder.encode("idNum", "utf-8") + "=" + URLEncoder.encode(idNum,"utf-8") + "&" +
+                        URLEncoder.encode("password", "utf-8") + "=" + URLEncoder.encode(password,"utf-8");
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+
+                outputStream.close();
+
+                //Get server response - successful insert or not
+                InputStream inputStream = httpURLConnection.getInputStream();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = "";
+
+                while ((line=bufferedReader.readLine()) !=null)
+                {
+                    stringBuilder.append(line+"\n");
+                }
+
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
             }
 
             catch (MalformedURLException e) {
@@ -158,6 +217,15 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             {
                 showDialog("Registration Failed", message,code);
             }
+            else if(code.equals("login_true"))
+            {
+                Intent intent = new Intent(activity,MyClasses.class);
+                activity.startActivity(intent);
+            }
+            else if(code.equals("login_false"))
+            {
+                showDialog("Login Failed", message,code);
+            }
         }
 
         catch (JSONException e)
@@ -188,9 +256,28 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                     activity.finish();
                 }
             });
-
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
         }
+
+        else if (code.equals("login_false"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    EditText loginid,password;
+                    loginid = activity.findViewById(R.id.LoginIdNumber);
+                    password = activity.findViewById(R.id.LoginPassword);
+                    loginid.setText("");
+                    password.setText("");
+
+                    dialog.dismiss();
+                }
+            });
+        }
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
