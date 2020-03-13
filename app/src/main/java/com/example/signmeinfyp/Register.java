@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Register extends AppCompatActivity {
 
     EditText fullName, email, RegIdNumber, RegPassword, RegPasswordVerify;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
     Button register;
     AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,9 +29,11 @@ public class Register extends AppCompatActivity {
 
         fullName = findViewById(R.id.fullName);
         email = findViewById(R.id.email);
+        radioGroup = findViewById(R.id.radioGroup);
         RegIdNumber = findViewById(R.id.RegIdNumber);
         RegPassword = findViewById(R.id.RegPassword);
         RegPasswordVerify = findViewById(R.id.RegPasswordVerify);
+
         register = findViewById(R.id.registerConfirm);
 
         //When register button clicked
@@ -55,6 +63,26 @@ public class Register extends AppCompatActivity {
                     alertDialog.show();
                 }
 
+                //If user type is not selected
+                /*else if(radioButton.getText().toString().equals(""))
+                {
+                    builder = new AlertDialog.Builder(Register.this);
+                    builder.setTitle("Something went wrong...");
+                    builder.setMessage("Please select an Account Type");
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }*/
+
                 //If passwords do not match, create popup to notify user
                 else if (! RegPassword.getText().toString().equals(RegPasswordVerify.getText().toString()))
                 {
@@ -79,6 +107,10 @@ public class Register extends AppCompatActivity {
                 }
                 else
                 {
+                    int radioID = radioGroup.getCheckedRadioButtonId();
+                    radioButton = findViewById(radioID);
+                    String accountType = radioButton.getText().toString();
+
                     String name = fullName.getText().toString();
                     String regemail = email.getText().toString();
                     String id = RegIdNumber.getText().toString();
@@ -86,11 +118,19 @@ public class Register extends AppCompatActivity {
                     String method = "register";
 
                     BackgroundTask backgroundTask = new BackgroundTask(Register.this);
-                    backgroundTask.execute(method,name,regemail,id,pass);
+                    backgroundTask.execute(method,name,regemail,id,pass,accountType);
 
                     //finish();
                 }
             }
         });
+    }
+
+    //Called in Register Layout XML
+    public void checkButton(View v)
+    {
+        int radioID = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioID);
+        Toast.makeText(this, "\"selected radio button: \"" + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }
