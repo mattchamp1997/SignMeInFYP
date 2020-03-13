@@ -214,6 +214,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             if(code.equals("reg_true"))
             {
                 showDialog("Registration Successful", message,code);
+
             }
             else if(code.equals("reg_false"))
             {
@@ -245,7 +246,24 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     {
         builder.setTitle(title);
 
-        if(code.equals("reg_true") || code.equals("reg_false"))
+        if(code.equals("reg_true"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    activity.finish();
+                    Intent intent = new Intent(activity,LoginPage.class);
+                    activity.startActivity(intent);
+                }
+            });
+        }
+
+        else if(code.equals("reg_false"))
         {
             builder.setMessage(message);
 
