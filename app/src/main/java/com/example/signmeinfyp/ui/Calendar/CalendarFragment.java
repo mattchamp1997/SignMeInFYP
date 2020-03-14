@@ -7,18 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.signmeinfyp.R;
 
 public class CalendarFragment extends Fragment {
 
-    private CalendarViewModel mCalendarViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        mCalendarViewModel = ViewModelProviders.of(this).get(CalendarViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_calendar, container, false);
-        return root;
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        return view;
     }
 }

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/AppDrawer1"
-        android:name="com.example.signmeinfyp.ui.MyClasses.MyClassesFragment"
+        android:name="com.example.signmeinfyp.ui.MyClasses.MyModulesFragment"
         android:label="@string/menu_myclasses"
-        tools:layout="@layout/fragment_my_classes" />
+        tools:layout="@layout/fragment_my_modules" />
 
     <fragment
         android:id="@+id/AppDrawer2"

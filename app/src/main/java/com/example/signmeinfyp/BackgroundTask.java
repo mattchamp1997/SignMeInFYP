@@ -222,7 +222,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             }
             else if(code.equals("login_true"))
             {
-                Intent intent = new Intent(activity,MyClasses.class);
+                Intent intent = new Intent(activity, Main.class);
                 activity.startActivity(intent);
             }
             else if(code.equals("login_false"))
