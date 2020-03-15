@@ -49,15 +49,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     protected void onPreExecute()
     {
         builder = new AlertDialog.Builder(ctx);
-
-        /*
-        progressDialog = new ProgressDialog(ctx);
-        progressDialog.setTitle("Please wait");
-        progressDialog.setMessage("Connecting to server");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        */
     }
 
     @Override

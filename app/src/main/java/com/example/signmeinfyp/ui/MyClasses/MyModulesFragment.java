@@ -1,22 +1,24 @@
 package com.example.signmeinfyp.ui.MyClasses;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.signmeinfyp.NewModule;
 import com.example.signmeinfyp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-public class MyModulesFragment extends Fragment {
-
-    TextView module1;
+public class MyModulesFragment extends Fragment
+{
     FloatingActionButton fabmod;
+    Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -24,18 +26,27 @@ public class MyModulesFragment extends Fragment {
 
         fabmod = view.findViewById(R.id.mymoduleFAB);
 
-        fabmod.setOnClickListener(new View.OnClickListener() {
+        fabmod.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v)
+            {
+                startActivity(new Intent(getContext(), NewModule.class));
+                //Toast.makeText(this, "\"selected radio button: \"", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(getActivity(), Register.class);
+                //startActivity(intent);
             }
         });
 
         return view;
-
     }
 
+    private void fabclick ()
+    {
+        context.getApplicationContext();
+        CharSequence text = "Hello toast!";
+        int duration = Toast.LENGTH_SHORT;
 
-
+        Toast toast = Toast.makeText(context, text, duration);
+    }
 }
