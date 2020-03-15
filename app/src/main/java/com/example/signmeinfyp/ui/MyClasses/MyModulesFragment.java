@@ -31,10 +31,9 @@ public class MyModulesFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(getContext(), NewModule.class));
                 //Toast.makeText(this, "\"selected radio button: \"", Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(getActivity(), Register.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getActivity(), NewModule.class);
+                startActivity(intent);
             }
         });
 
