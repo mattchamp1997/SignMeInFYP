@@ -1,12 +1,10 @@
 package com.example.signmeinfyp.ui.MyClasses;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MyModulesFragment extends Fragment
 {
     FloatingActionButton fabmod;
-    Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -38,14 +35,5 @@ public class MyModulesFragment extends Fragment
         });
 
         return view;
-    }
-
-    private void fabclick ()
-    {
-        context.getApplicationContext();
-        CharSequence text = "Hello toast!";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
     }
 }
