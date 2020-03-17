@@ -1,67 +1,71 @@
 package com.example.signmeinfyp;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NewModule extends AppCompatActivity
 {
-    TextView welcome,info;
-    EditText modname,lecId,studentCount;
-    Button confirm;
-    //EditText textIn;
-    //Button buttonAdd;
-    //LinearLayout container;
+    TextView welcome;
+    EditText modname,lecId,courseCode;
+    Button create;
+
+    AlertDialog.Builder builder;
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newmod);
 
-        welcome = findViewById(R.id.WelcometoModule);
+        welcome = findViewById(R.id.createTextV);
         modname = findViewById(R.id.modName);
         lecId = findViewById(R.id.lecID);
-        info = findViewById(R.id.info);
-        studentCount = findViewById(R.id.countStudent);
-        confirm = findViewById(R.id.confirmBtn);
+        courseCode = findViewById(R.id.courseCode);
+        create = findViewById(R.id.createBtn);
 
-
-        /*textIn = (EditText)findViewById(R.id.textin);
-        buttonAdd = (Button)findViewById(R.id.add);
-        container = (LinearLayout)findViewById(R.id.container);
-
-        buttonAdd.setOnClickListener(new View.OnClickListener()
-        {
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0)
-            {
-                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                final View addView = layoutInflater.inflate(R.layout.row, null);
-                TextView textOut = (TextView)addView.findViewById(R.id.textout);
-                textOut.setText(textIn.getText().toString());
-                Button buttonRemove = (Button)addView.findViewById(R.id.remove);
-
-                buttonRemove.setOnClickListener(new View.OnClickListener()
+            public void onClick(View v) {
+                if(modname.getText().toString().equals("") || lecId.getText().toString().equals("") || courseCode.getText().toString().equals(""))
                 {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        ((LinearLayout)addView.getParent()).removeView(addView);
-                    }
-                });
+                    builder = new AlertDialog.Builder(NewModule.this);
+                    builder.setTitle("Something went wrong...");
+                    builder.setMessage("Please fill all fields");
 
-                container.addView(addView);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
+                else
+                {
+                    String modName = modname.getText().toString();
+                    String lecid = lecId.getText().toString();
+                    String coursecyode = courseCode.getText().toString();
+                    String method = "newModule";
+
+                    BackgroundTask backgroundTask = new BackgroundTask(NewModule.this);
+                    backgroundTask.execute(method,modName,lecid,coursecyode);
+                }
             }
-        });*/
+        });
 
     }
 }
-        //
-
         /*createModButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

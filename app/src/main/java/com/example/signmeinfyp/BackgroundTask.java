@@ -31,12 +31,12 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 {
     String register_url = "http://mattfyp.000webhostapp.com/register.php";
     String login_url = "http://mattfyp.000webhostapp.com/login.php";
+    String newmodule_url = "http://mattfyp.000webhostapp.com/newmodule.php";
 
     Context ctx;
     Activity activity;
 
     AlertDialog.Builder builder;
-    //ProgressDialog progressDialog;
 
     public BackgroundTask(Context ctx)
     {
@@ -64,6 +64,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             String idNum = params[3];
             String password = params[4];
             String accountType = params[5];
+            String courseCode = params[6];
 
             try
             {
@@ -83,7 +84,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                         URLEncoder.encode("email", "utf-8") + "=" + URLEncoder.encode(email,"utf-8") + "&" +
                         URLEncoder.encode("idNum", "utf-8") + "=" + URLEncoder.encode(idNum,"utf-8") + "&" +
                         URLEncoder.encode("password", "utf-8") + "=" + URLEncoder.encode(password,"utf-8") + "&" +
-                        URLEncoder.encode("accountType", "utf-8") + "=" + URLEncoder.encode(accountType,"utf-8");
+                        URLEncoder.encode("accountType", "utf-8") + "=" + URLEncoder.encode(accountType,"utf-8")  + "&" +
+                        URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8");
 
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
@@ -106,11 +108,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 httpURLConnection.disconnect();
                 return stringBuilder.toString().trim();
-
-                //inputStream.close();
-                //return "Registration Success";
-                //httpURLConnection.disconnect();
-                //Thread.sleep(5000);
             }
 
             catch (MalformedURLException e) {
@@ -123,9 +120,14 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 e.printStackTrace();
             }
         }
+
         //For Login
         else if (method.equals("login"))
         {
+            String idNum,password;
+            idNum = params[1];
+            password = params[2];
+
             try
             {
                 URL url = new URL(login_url);
@@ -139,10 +141,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 OutputStream outputStream = httpURLConnection.getOutputStream();
 
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
-
-                String idNum,password;
-                idNum = params[1];
-                password = params[2];
 
                 String data = URLEncoder.encode("idNum", "utf-8") + "=" + URLEncoder.encode(idNum,"utf-8") + "&" +
                         URLEncoder.encode("password", "utf-8") + "=" + URLEncoder.encode(password,"utf-8");
@@ -175,6 +173,65 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Code for creating new module
+        else if (method.equals("newModule"))
+        {
+            String moduleName,lecturerID,courseCode;
+            moduleName = params[1];
+            lecturerID = params[2];
+            courseCode = params[3];
+
+            try
+            {
+                URL url = new URL(newmodule_url);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+
+                String data = URLEncoder.encode("moduleName", "utf-8") + "=" + URLEncoder.encode(moduleName,"utf-8") + "&" +
+                        URLEncoder.encode("lecturerID", "utf-8") + "=" + URLEncoder.encode(lecturerID,"utf-8") + "&" +
+                        URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8");
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+
+                outputStream.close();
+
+                //Get server response - successful insert or not
+                InputStream inputStream = httpURLConnection.getInputStream();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = "";
+
+                while ((line=bufferedReader.readLine()) !=null)
+                {
+                    stringBuilder.append(line+"\n");
+                }
+
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();

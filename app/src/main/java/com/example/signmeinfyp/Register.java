@@ -7,14 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity {
 
-    EditText fullName, email, RegIdNumber, RegPassword, RegPasswordVerify,courseCode;
+    EditText fullName, email, RegIdNumber, RegPassword, RegPasswordVerify, courseCyode;
     RadioGroup radioGroup;
     RadioButton radioButton, radioLec,radioStu;
     Button register;
@@ -35,9 +34,9 @@ public class Register extends AppCompatActivity {
         RegIdNumber = findViewById(R.id.RegIdNumber);
         RegPassword = findViewById(R.id.RegPassword);
         RegPasswordVerify = findViewById(R.id.RegPasswordVerify);
-        courseCode = findViewById(R.id.courseCode);
+        courseCyode = findViewById(R.id.courseCode);
 
-        courseCode.setVisibility(View.INVISIBLE);
+        courseCyode.setVisibility(View.INVISIBLE);
 
 
         register = findViewById(R.id.registerConfirm);
@@ -69,7 +68,7 @@ public class Register extends AppCompatActivity {
                 }
 
                 //If registering as student and course code not entered
-                else if(radioStu.isChecked() && courseCode.getText().toString().equals(""))
+                else if(radioStu.isChecked() && courseCyode.getText().toString().equals(""))
                 {
                     builder = new AlertDialog.Builder(Register.this);
                     builder.setTitle("Something went wrong...");
@@ -130,9 +129,9 @@ public class Register extends AppCompatActivity {
                     alertDialog.show();
                 }
 
+                //Code to pass user's selected account type to db
                 else
                 {
-                    //Code to pass user's selected account type to db
                     int radioID = radioGroup.getCheckedRadioButtonId();
                     radioButton = findViewById(radioID);
                     String accountType = radioButton.getText().toString();
@@ -141,10 +140,11 @@ public class Register extends AppCompatActivity {
                     String regemail = email.getText().toString();
                     String id = RegIdNumber.getText().toString();
                     String pass = RegPassword.getText().toString();
+                    String courseCode = courseCyode.getText().toString();
                     String method = "register";
 
                     BackgroundTask backgroundTask = new BackgroundTask(Register.this);
-                    backgroundTask.execute(method,name,regemail,id,pass,accountType);
+                    backgroundTask.execute(method,name,regemail,id,pass,accountType,courseCode);
 
                     //finish();
                 }
@@ -158,7 +158,7 @@ public class Register extends AppCompatActivity {
             {
                 if (radioStu.isChecked())
                 {
-                    courseCode.setVisibility(View.VISIBLE);
+                    courseCyode.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -170,21 +170,9 @@ public class Register extends AppCompatActivity {
             {
                 if (radioLec.isChecked())
                 {
-                    courseCode.setVisibility(View.INVISIBLE);
+                    courseCyode.setVisibility(View.INVISIBLE);
                 }
             }
         });
-
-
-
-
-    }
-
-    //Called in Register Layout XML
-    public void checkButton(View v)
-    {
-        int radioID = radioGroup.getCheckedRadioButtonId();
-        radioButton = findViewById(radioID);
-        Toast.makeText(this, "\"selected radio button: \"" + radioButton.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }
