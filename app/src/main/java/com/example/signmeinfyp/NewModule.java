@@ -54,12 +54,12 @@ public class NewModule extends AppCompatActivity
                 else
                 {
                     String modName = modname.getText().toString();
-                    String lecid = lecId.getText().toString();
-                    String coursecyode = courseCode.getText().toString();
+                    String lecID = lecId.getText().toString();
+                    String courseCyode = courseCode.getText().toString();
                     String method = "newModule";
 
                     BackgroundTask backgroundTask = new BackgroundTask(NewModule.this);
-                    backgroundTask.execute(method,modName,lecid,coursecyode);
+                    backgroundTask.execute(method,modName,lecID,courseCyode);
                 }
             }
         });

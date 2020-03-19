@@ -201,8 +201,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
 
-                String data = URLEncoder.encode("moduleName", "utf-8") + "=" + URLEncoder.encode(moduleName,"utf-8") + "&" +
-                        URLEncoder.encode("lecturerID", "utf-8") + "=" + URLEncoder.encode(lecturerID,"utf-8") + "&" +
+                String data = URLEncoder.encode("lecturerID", "utf-8") + "=" + URLEncoder.encode(lecturerID,"utf-8") + "&" +
+                        URLEncoder.encode("moduleName", "utf-8") + "=" + URLEncoder.encode(moduleName,"utf-8") + "&" +
                         URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8");
 
                 bufferedWriter.write(data);
@@ -246,7 +246,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     {
         try
         {
-            //progressDialog.dismiss();
             //Line to remove HTML tags from JSON
             String nohtml = android.text.Html.fromHtml(json).toString();
 
@@ -262,7 +261,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             if(code.equals("reg_true"))
             {
                 showDialog("Registration Successful", message,code);
-
             }
             else if(code.equals("reg_false"))
             {
@@ -276,6 +274,18 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             else if(code.equals("login_false"))
             {
                 showDialog("Login Failed", message,code);
+            }
+            else if(code.equals("module_creation_error"))
+            {
+                showDialog("Module Creation Failed", message,code);
+            }
+            else if(code.equals("module_insert_error"))
+            {
+                showDialog("Server Error", message,code);
+            }
+            else if(code.equals("module_created"))
+            {
+                showDialog("New Module Created", message,code);
             }
         }
 
@@ -341,6 +351,53 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                     password.setText("");
 
                     dialog.dismiss();
+                }
+            });
+        }
+
+        else if(code.equals("module_creation_error"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    EditText lecID = activity.findViewById(R.id.lecID);
+                    lecID.setText("");
+                }
+            });
+        }
+
+        else if(code.equals("module_insert_error"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                }
+            });
+        }
+
+        else if(code.equals("module_created"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    activity.finish();
+                    Intent intent = new Intent(activity,Main.class);
+                    activity.startActivity(intent);
                 }
             });
         }
