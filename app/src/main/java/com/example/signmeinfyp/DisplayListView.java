@@ -1,7 +1,11 @@
 package com.example.signmeinfyp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,54 +13,111 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class DisplayListView extends AppCompatActivity
 {
-    String json_string;
-    JSONObject jsonObject;
-    JSONArray jsonArray;
-    ModListViewAdapter modListViewAdapter;
-    ListView listView;
+    private String TAG = DisplayListView.class.getSimpleName();
+    private ListView lv;
+
+    ArrayList<HashMap<String, String>> moduleList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list_view);
 
-        listView = (ListView)findViewById(R.id.listview);
-        modListViewAdapter = new ModListViewAdapter(this, R.layout.row_layout);
-        listView.setAdapter(modListViewAdapter);
+        moduleList = new ArrayList<>();
+        lv = (ListView) findViewById(R.id.list);
 
-        json_string = getIntent().getExtras().getString("json_data");
+        new GetModDets().execute();
+    }
 
-        try
+    private class GetModDets extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(DisplayListView.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0)
         {
-            jsonObject = new JSONObject(json_string);
-            jsonArray = jsonObject.getJSONArray("server_response");
-            int count = 0;
+            HttpHandler sh = new HttpHandler();
 
-            int moduleID;
-            String lecID, modName, classList;
+            // Making a request to url and getting response
+            String url = "https://mattfyp.000webhostapp.com/json_getdata.php";
 
-            while(count < jsonObject.length())
+            String jsonStr = sh.makeServiceCall(url);
+
+            Log.e(TAG, "Response from url: " + jsonStr);
+
+            if (jsonStr != null)
             {
-                JSONObject JO = jsonArray.getJSONObject(count);
-                moduleID = JO.getInt("moduleID");
-                lecID = JO.getString("lecturerID");
-                modName = JO.getString("moduleName");
-                classList = JO.getString("classListCourseCode");
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
 
-                ModListViewDetails modListViewDetails = new ModListViewDetails(moduleID,lecID,modName,classList);
+                    // Getting JSON Array node
+                    JSONArray modDetails = jsonObj.getJSONArray("server_response");
 
-                modListViewAdapter.add(modListViewDetails);
+                    // looping through All Modules
+                    for (int i = 0; i < modDetails.length(); i++) {
+                        JSONObject c = modDetails.getJSONObject(i);
+                        String modID = c.getString("moduleID");
+                        String lecID = c.getString("lecturerID");
+                        String modName = c.getString("moduleName");
+                        String classList = c.getString("classListCourseCode");
 
-                count++;
+                        // tmp hash map for single module
+                        HashMap<String, String> modDets = new HashMap<>();
+
+                        // adding each child node to HashMap key => value
+                        modDets.put("moduleID", modID);
+                        modDets.put("lecturerID", lecID);
+                        modDets.put("moduleName", modName);
+                        modDets.put("classListCourseCode", classList);
+
+                        // adding module to module list
+                        moduleList.add(modDets);
+                    }
+                }
+                catch (final JSONException e)
+                {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+
+                    runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
             }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
+            else {
+                Log.e(TAG, "Couldn't get json from server.");
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),"Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            return null;
         }
 
-
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            super.onPostExecute(result);
+            SimpleAdapter adapter = new SimpleAdapter(DisplayListView.this, moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.modName, R.id.classList});
+            lv.setAdapter(adapter);
+        }
     }
 }
