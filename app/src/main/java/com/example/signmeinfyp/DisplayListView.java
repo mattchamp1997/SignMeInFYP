@@ -34,7 +34,7 @@ public class DisplayListView extends AppCompatActivity
         new GetModDets().execute();
     }
 
-    private class GetModDets extends AsyncTask<Void, Void, Void> {
+    public class GetModDets extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
