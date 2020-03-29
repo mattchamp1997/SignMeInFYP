@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.signmeinfyp.HttpHandler;
+import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
 
 import org.json.JSONArray;
@@ -27,12 +28,14 @@ public class MyModulesFragment extends Fragment
 {
     private String TAG = MyModulesFragment.class.getSimpleName();
     private ListView lv;
+    String loggedIn = LoginPage.getLoggedIn();
+
 
     ArrayList<HashMap<String, String>> moduleList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.activity_display_list_view, container, false);
+        View view = inflater.inflate(R.layout.activity_mymodules, container, false);
 
         return view;
     }
@@ -74,7 +77,9 @@ public class MyModulesFragment extends Fragment
 
             if (jsonStr != null)
             {
-                try {
+                try
+                {
+                    //Code for downloading JSON reply
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node

@@ -3,19 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/AppDrawer1">
+    app:startDestination="@+id/MyModules">
 
     <fragment
-        android:id="@+id/AppDrawer1"
+        android:id="@+id/MyModules"
         android:name="com.example.signmeinfyp.ui.MyModules.MyModulesFragment"
-        android:label="@string/menu_myclasses"
-        tools:layout="@layout/fragment_my_modules" />
+        android:label="My Modules"
+        tools:layout="@layout/fragment_oldmy_modules" />
 
     <fragment
-        android:id="@+id/AppDrawer2"
+        android:id="@+id/Calendar"
         android:name="com.example.signmeinfyp.ui.Calendar.CalendarFragment"
         android:label="@string/menu_calendar"
         tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/NewMod"
+        android:name="com.example.signmeinfyp.ui.NewModules.NewModFragment"
+        android:label="Create Module"
+        tools:layout="@layout/activity_newmod" />
 
     <fragment
         android:id="@+id/Settings"

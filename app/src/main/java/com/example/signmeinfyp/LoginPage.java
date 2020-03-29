@@ -12,6 +12,7 @@ public class LoginPage extends AppCompatActivity
 {
     EditText LoginIdNumber, LoginPassword;
     Button loginButton, registerButton;
+    private static String loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,10 +39,19 @@ public class LoginPage extends AppCompatActivity
                 String idNum = LoginIdNumber.getText().toString();
                 String pass = LoginPassword.getText().toString();
                 String method = "login";
+                setLoggedIn(idNum);
 
                 BackgroundTask backgroundTask = new BackgroundTask(LoginPage.this);
                 backgroundTask.execute(method,idNum,pass);
             }
         });
+    }
+
+    public static String getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(String loggedIn) {
+        this.loggedIn = loggedIn;
     }
 }

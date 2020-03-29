@@ -5,13 +5,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/AppDrawer1"
+            android:id="@+id/MyModules"
             android:icon="@android:drawable/ic_menu_edit"
             android:title="My Modules" />
         <item
-            android:id="@+id/AppDrawer2"
+            android:id="@+id/Calendar"
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="Calendar" />
+
+        <item
+            android:id="@+id/NewMod"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="Create Module" />
     </group>
 
     <item android:title="Manage">
