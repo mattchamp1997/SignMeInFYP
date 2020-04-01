@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -46,6 +47,14 @@ public class MyModulesFragment extends Fragment
         moduleList = new ArrayList<>();
         lv = (ListView)view.findViewById(R.id.list);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity(),String.valueOf(position), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), moduleList.get(position).toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
         new GetModDets().execute();
     }
 
@@ -59,8 +68,6 @@ public class MyModulesFragment extends Fragment
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //Toast.makeText(Disp.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
-
         }
 
         @Override
@@ -128,7 +135,7 @@ public class MyModulesFragment extends Fragment
                 {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(),"Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),"Couldn't get json from server.", Toast.LENGTH_LONG).show();
                     }
                 });
             }

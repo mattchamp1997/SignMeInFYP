@@ -4,13 +4,17 @@ import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class HttpHandler
 {
@@ -21,15 +25,32 @@ public class HttpHandler
 
     public String makeServiceCall(String reqUrl)
     {
+        String idNum = LoginPage.getLoggedIn();
         String response = null;
+
         try
         {
             URL url = new URL(reqUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+
+            //httpURLConnection.setDoOutput(true);
+            //httpURLConnection.setDoInput(true);
+
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+
+            String data = URLEncoder.encode("idNum", "utf-8") + "=" + URLEncoder.encode(idNum, "utf-8");
+
+            bufferedWriter.write(data);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+
+            //outputStream.close();
 
             // read the response
-            InputStream in = new BufferedInputStream(conn.getInputStream());
+            InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
             response = convertStreamToString(in);
         }
 
@@ -42,6 +63,8 @@ public class HttpHandler
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
+
+        //String nohtml = android.text.Html.fromHtml(response).toString();
 
         return response;
     }

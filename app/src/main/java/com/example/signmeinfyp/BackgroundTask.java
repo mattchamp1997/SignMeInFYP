@@ -32,6 +32,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     String register_url = "http://mattfyp.000webhostapp.com/register.php";
     String login_url = "http://mattfyp.000webhostapp.com/login.php";
     String newmodule_url = "http://mattfyp.000webhostapp.com/newmodule.php";
+    String modListView_url = "https://mattfyp.000webhostapp.com/json_getdata.php";
 
     Context ctx;
     Activity activity;
