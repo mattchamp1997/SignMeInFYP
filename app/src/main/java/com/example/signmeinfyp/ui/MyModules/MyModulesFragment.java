@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.signmeinfyp.HttpHandler;
 import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,7 @@ public class MyModulesFragment extends Fragment
     private String TAG = MyModulesFragment.class.getSimpleName();
     private ListView lv;
     String loggedIn = LoginPage.getLoggedIn();
+    FloatingActionButton fab;
 
 
     ArrayList<HashMap<String, String>> moduleList;
@@ -46,12 +48,21 @@ public class MyModulesFragment extends Fragment
         //can add listener elements here
         moduleList = new ArrayList<>();
         lv = (ListView)view.findViewById(R.id.list);
+        fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),String.valueOf(position), Toast.LENGTH_LONG).show();
-                //Toast.makeText(getActivity(), moduleList.get(position).toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), moduleList.get(position).toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //intent to new mod
+                Toast.makeText(getActivity(), "hashbox", Toast.LENGTH_LONG).show();
             }
         });
 

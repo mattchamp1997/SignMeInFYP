@@ -32,7 +32,6 @@ public class NewModFragment extends Fragment
 
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        welcome = view.findViewById(R.id.createTextV);
         modname = view.findViewById(R.id.modName);
         lecId = view.findViewById(R.id.lecID);
         courseCode = view.findViewById(R.id.courseCode);
