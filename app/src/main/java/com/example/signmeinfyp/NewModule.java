@@ -47,7 +47,6 @@ public class NewModule extends AppCompatActivity
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
                 else
                 {
                     String modName = modname.getText().toString();

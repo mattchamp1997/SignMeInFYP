@@ -239,6 +239,65 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             }
         }
 
+        //Code for creating new module
+        else if (method.equals("newClass"))
+        {
+            String moduleName,lecturerID,courseCode;
+            moduleName = params[1];
+            lecturerID = params[2];
+            courseCode = params[3];
+
+            try
+            {
+                URL url = new URL(newmodule_url);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+
+                String data = URLEncoder.encode("lecturerID", "utf-8") + "=" + URLEncoder.encode(lecturerID,"utf-8") + "&" +
+                        URLEncoder.encode("moduleName", "utf-8") + "=" + URLEncoder.encode(moduleName,"utf-8") + "&" +
+                        URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8");
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+
+                outputStream.close();
+
+                //Get server response - successful insert or not
+                InputStream inputStream = httpURLConnection.getInputStream();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = "";
+
+                while ((line=bufferedReader.readLine()) !=null)
+                {
+                    stringBuilder.append(line+"\n");
+                }
+
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -269,7 +328,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             }
             else if(code.equals("login_true"))
             {
-
                 Intent intent = new Intent(activity, Main.class);
                 activity.startActivity(intent);
             }

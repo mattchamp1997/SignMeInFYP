@@ -66,7 +66,6 @@ public class Register extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
                 //If registering as student and course code not entered
                 else if(radioStu.isChecked() && courseCyode.getText().toString().equals(""))
                 {
@@ -86,7 +85,6 @@ public class Register extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
                 //If user type is not selected
                 else if(! radioStu.isChecked() & ! radioLec.isChecked())
                 {
@@ -106,7 +104,6 @@ public class Register extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
                 //If passwords do not match, create popup to notify user
                 else if (! RegPassword.getText().toString().equals(RegPasswordVerify.getText().toString()))
                 {
@@ -128,7 +125,6 @@ public class Register extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
                 //Code to pass user's selected account type to db
                 else
                 {

@@ -18,12 +18,6 @@
         tools:layout="@layout/fragment_calendar" />
 
     <fragment
-        android:id="@+id/NewMod"
-        android:name="com.example.signmeinfyp.ui.NewModules.NewModFragment"
-        android:label="Create Module"
-        tools:layout="@layout/activity_newmod" />
-
-    <fragment
         android:id="@+id/Settings"
         android:name="com.example.signmeinfyp.ui.Settings.SettingsFragment"
         android:label="@string/menu_settings"

@@ -1,5 +1,6 @@
 package com.example.signmeinfyp.ui.MyModules;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.signmeinfyp.HttpHandler;
 import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
+import com.example.signmeinfyp.ui.MyModules.NewClass.NewClass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -53,7 +55,6 @@ public class MyModulesFragment extends Fragment
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity(),String.valueOf(position), Toast.LENGTH_LONG).show();
                 Toast.makeText(getActivity(), moduleList.get(position).toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -62,7 +63,8 @@ public class MyModulesFragment extends Fragment
             @Override
             public void onClick(View v) {
                 //intent to new mod
-                Toast.makeText(getActivity(), "hashbox", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), NewClass.class);
+                getActivity().startActivity(intent);
             }
         });
 
