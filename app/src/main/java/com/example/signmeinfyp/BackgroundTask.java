@@ -32,7 +32,10 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     String register_url = "http://mattfyp.000webhostapp.com/register.php";
     String login_url = "http://mattfyp.000webhostapp.com/login.php";
     String newmodule_url = "http://mattfyp.000webhostapp.com/newmodule.php";
+
+    //Need to be updated
     String modListView_url = "https://mattfyp.000webhostapp.com/json_getdata.php";
+    String newClass_url = "https://mattfyp.000webhostapp.com/json_getdata.php";
 
     Context ctx;
     Activity activity;
@@ -239,7 +242,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             }
         }
 
-        //Code for creating new module
+        //Code for creating new class
         else if (method.equals("newClass"))
         {
             String moduleName,lecturerID,courseCode;
@@ -249,7 +252,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
             try
             {
-                URL url = new URL(newmodule_url);
+                URL url = new URL(newClass_url);
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");

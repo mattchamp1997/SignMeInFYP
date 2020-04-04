@@ -30,8 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewModule" />
-        <activity android:name=".ui.MyModules.NewClass.NewClass" />
+        <activity android:name=".ui.MyModules.NewModule.NewModule"
+            android:label="New Module"/>
+        <activity android:name=".ui.MyModules.NewClass"
+            android:label="New Class"/>
+        <activity android:name=".ui.MyModules.ModuleView"
+            android:label="Module View"/>
     </application>
 
 </manifest>

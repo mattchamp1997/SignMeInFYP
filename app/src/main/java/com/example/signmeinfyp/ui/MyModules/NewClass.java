@@ -1,9 +1,10 @@
-package com.example.signmeinfyp.ui.MyModules.NewClass;
+package com.example.signmeinfyp.ui.MyModules;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.signmeinfyp.BackgroundTask;
 import com.example.signmeinfyp.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 
 public class NewClass extends AppCompatActivity
@@ -30,6 +34,9 @@ public class NewClass extends AppCompatActivity
     Button dateButton,timeButton, timeButton2, timeButton3, createClass;
     AlertDialog.Builder builder;
 
+    JSONObject json;
+    private String TAG = NewClass.class.getSimpleName();
+
     int startHr, startMin, finHr, finMin, lateHr, lateMin;
     int year, month, day;
 
@@ -39,21 +46,40 @@ public class NewClass extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newclass);
 
+        try {
+            json = new JSONObject(getIntent().getStringExtra("ITEM_EXTRA"));
+            Log.e(TAG, "Example Item: " + json.getString("KEY"));
+            String modID = json.getString("moduleID");
+            String lecID = json.getString("lecturerID");
+            String courseCode = json.getString("classListCourseCode");
+            String modName = json.getString("moduleName");
+            /*
+            tv1.setText(modName);
+            tv2.setText(lecID);
+            tv3.setText(courseCode);*/
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         room = findViewById(R.id.room);
         loginCode = findViewById(R.id.loginCode);
         classType = findViewById(R.id.classType);
+
         dateTV = findViewById(R.id.dateTV);
         timeTV = findViewById(R.id.timeTV);
         timeTV2 = findViewById(R.id.timeTV2);
         timeTV3 = findViewById(R.id.timeTV3);
+
         radioGroup = findViewById(R.id.radioGroup2);
         rbLab = findViewById(R.id.rbLab);
         rbLec = findViewById(R.id.rbLec);
         rbTutorial = findViewById(R.id.rbTutorial);
+
         dateButton = findViewById(R.id.dateButton);
         timeButton = findViewById(R.id.timeButton);
         timeButton2 = findViewById(R.id.timeButton2);
         timeButton3 = findViewById(R.id.timeButton3);
+
         createClass = findViewById(R.id.createClass);
 
         builder = new AlertDialog.Builder(this);
@@ -132,6 +158,7 @@ public class NewClass extends AppCompatActivity
                     String classType = radioButton.getText().toString();
 
                     String method = "newClass";
+
                     int modID;
                     String modName;
                     String lecID;

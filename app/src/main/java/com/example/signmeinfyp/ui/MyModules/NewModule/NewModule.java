@@ -1,4 +1,4 @@
-package com.example.signmeinfyp;
+package com.example.signmeinfyp.ui.MyModules.NewModule;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.signmeinfyp.BackgroundTask;
+import com.example.signmeinfyp.R;
 
 public class NewModule extends AppCompatActivity
 {
@@ -62,14 +65,3 @@ public class NewModule extends AppCompatActivity
 
     }
 }
-        /*createModButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String LecIdNum = lecId.getText().toString();
-                String modName = modname.getText().toString();
-                String method = "login";
-
-                BackgroundTask backgroundTask = new BackgroundTask(NewModule.this);
-                backgroundTask.execute(method,LecIdNum,modName);
-            }
-        });*/
