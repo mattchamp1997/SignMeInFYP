@@ -32,10 +32,11 @@
         </activity>
         <activity android:name=".ui.MyModules.NewModule.NewModule"
             android:label="New Module"/>
-        <activity android:name=".ui.MyModules.NewClass"
-            android:label="New Class"/>
         <activity android:name=".ui.MyModules.ModuleView"
             android:label="Module View"/>
+        <activity android:name=".ui.MyModules.NewClass"
+            android:label="New Class"/>
+
     </application>
 
 </manifest>

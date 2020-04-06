@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,11 +30,12 @@ public class NewClass extends AppCompatActivity
     TextView classType,dateTV,timeTV,timeTV2,timeTV3;
     RadioGroup radioGroup;
     RadioButton radioButton, rbLec,rbTutorial,rbLab;
-    Button dateButton,timeButton, timeButton2, timeButton3, createClass;
+    Button dateButton,timeButton, timeButton2, timeButton3, create_class;
     AlertDialog.Builder builder;
 
+    String modID,lecID,courseCode,modName;
     JSONObject json;
-    private String TAG = NewClass.class.getSimpleName();
+    //private String TAG = NewClass.class.getSimpleName();
 
     int startHr, startMin, finHr, finMin, lateHr, lateMin;
     int year, month, day;
@@ -47,16 +47,14 @@ public class NewClass extends AppCompatActivity
         setContentView(R.layout.activity_newclass);
 
         try {
-            json = new JSONObject(getIntent().getStringExtra("ITEM_EXTRA"));
-            Log.e(TAG, "Example Item: " + json.getString("KEY"));
-            String modID = json.getString("moduleID");
-            String lecID = json.getString("lecturerID");
-            String courseCode = json.getString("classListCourseCode");
-            String modName = json.getString("moduleName");
-            /*
-            tv1.setText(modName);
-            tv2.setText(lecID);
-            tv3.setText(courseCode);*/
+            String json1 = getIntent().getStringExtra("ITEM_EXTRA");
+            json = new JSONObject(json1);
+            //Log.e(TAG, "Example Item: " + json.getString("KEY"));
+
+            lecID = json.getString("lecturerID");
+            courseCode = json.getString("classListCourseCode");
+            modName = json.getString("moduleName");
+            modID = json.getString("moduleID");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,11 +78,11 @@ public class NewClass extends AppCompatActivity
         timeButton2 = findViewById(R.id.timeButton2);
         timeButton3 = findViewById(R.id.timeButton3);
 
-        createClass = findViewById(R.id.createClass);
+        create_class = findViewById(R.id.createClass);
 
         builder = new AlertDialog.Builder(this);
 
-        createClass.setOnClickListener(new View.OnClickListener() {
+        create_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(room.getText().toString().equals("") || loginCode.getText().toString().equals(""))
@@ -157,21 +155,26 @@ public class NewClass extends AppCompatActivity
                     radioButton = findViewById(radioID);
                     String classType = radioButton.getText().toString();
 
+                    month = month + 1;
+
                     String method = "newClass";
 
-                    int modID;
-                    String modName;
-                    String lecID;
-                    String room;
-                    //string classtype; ^^
-                    int day,month,year;
-                    int starthour,startmin,finhour,finmin,latehour,latemin;
+                    String room_num = room.getText().toString();
+                    String login = loginCode.getText().toString();
+                    String start_hr = Integer.toString(startHr);
+                    String start_min = Integer.toString(startMin);
+                    String fin_hr = Integer.toString(finHr);
+                    String fin_min = Integer.toString(finMin);
+                    String late_hr = Integer.toString(lateHr);
+                    String late_min = Integer.toString(lateMin);
+                    String yr = Integer.toString(year);
+                    String mon = Integer.toString(month);
+                    String dy = Integer.toString(day);
 
-                    //String name = fullName.getText().toString();
-                    //String regemail = email.getText().toString();
-
+                    //Toast.makeText(NewClass.this,method+" " +classType+" " +modID+" " +lecID+" " +courseCode+" " +room_num+" " +login+" " +start_hr+" " +start_min+" " +
+                    //        fin_hr+" " +fin_min+" " +late_hr+" " +late_min+" " +yr+" " +mon+" " +dy,Toast.LENGTH_LONG).show();
                     BackgroundTask backgroundTask = new BackgroundTask(NewClass.this);
-                    //backgroundTask.execute(method,name,regemail,id,pass,accountType,courseCode);
+                    backgroundTask.execute(method,classType,modID,lecID,courseCode,room_num,login,start_hr,start_min,fin_hr,fin_min,late_hr,late_min,yr,mon,dy);
                 }
             }
         });
@@ -335,7 +338,19 @@ public class NewClass extends AppCompatActivity
                             alertDialog.setTitle("Error");
                             alertDialog.show();
                         }
-                        else if (selectedHour == startHr && selectedHour == finHr)
+                        else if(selectedHour > startHr && selectedHour < finHr)
+                        {
+                            if (selectedMinute < 10 && selectedMinute > 0) {
+                                timeTV3.setText("Late Time: " + selectedHour + ":0" + selectedMinute);
+                            } else if (selectedMinute == 0) {
+                                timeTV3.setText("Late Time: " + selectedHour + ":00");
+                            } else {
+                                timeTV3.setText("Late Time: " + selectedHour + ":" + selectedMinute);
+                            }
+                            lateHr = selectedHour;
+                            lateMin = selectedMinute;
+                        }
+                        else if (startHr == finHr)
                         {
                             if(selectedMinute < startMin || selectedMinute > finMin)
                             {
@@ -365,6 +380,64 @@ public class NewClass extends AppCompatActivity
                                 lateMin = selectedMinute;
                             }
                         }
+                        else if(selectedHour == startHr)
+                        {
+                            if(selectedMinute > startMin) {
+                                if (selectedMinute < 10 && selectedMinute > 0) {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":0" + selectedMinute);
+                                } else if (selectedMinute == 0) {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":00");
+                                } else {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":" + selectedMinute);
+                                }
+                                lateHr = selectedHour;
+                                lateMin = selectedMinute;
+                            }
+                            else
+                            {
+                                builder.setMessage("Please select a late time during the class");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.setTitle("Error");
+                                alertDialog.show();
+                            }
+                        }
+                        else if(selectedHour == finHr)
+                        {
+                            if(selectedMinute < finMin) {
+                                if (selectedMinute < 10 && selectedMinute > 0) {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":0" + selectedMinute);
+                                } else if (selectedMinute == 0) {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":00");
+                                } else {
+                                    timeTV3.setText("Late Time: " + selectedHour + ":" + selectedMinute);
+                                }
+                                lateHr = selectedHour;
+                                lateMin = selectedMinute;
+                            }
+                            else
+                            {
+                                builder.setMessage("Please select a late time during the class");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.setTitle("Error");
+                                alertDialog.show();
+                            }
+                        }
                         else {
                             builder.setMessage("Please select a late time during the class");
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
@@ -386,6 +459,4 @@ public class NewClass extends AppCompatActivity
             }
         });
     }
-
-
 }

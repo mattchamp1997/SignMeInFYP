@@ -32,10 +32,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     String register_url = "http://mattfyp.000webhostapp.com/register.php";
     String login_url = "http://mattfyp.000webhostapp.com/login.php";
     String newmodule_url = "http://mattfyp.000webhostapp.com/newmodule.php";
-
-    //Need to be updated
-    String modListView_url = "https://mattfyp.000webhostapp.com/json_getdata.php";
-    String newClass_url = "https://mattfyp.000webhostapp.com/json_getdata.php";
+    String newClass_url = "http://mattfyp.000webhostapp.com/newclass.php";
 
     Context ctx;
     Activity activity;
@@ -245,10 +242,21 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
         //Code for creating new class
         else if (method.equals("newClass"))
         {
-            String moduleName,lecturerID,courseCode;
-            moduleName = params[1];
-            lecturerID = params[2];
-            courseCode = params[3];
+            String classType = params[1];
+            String modID = params[2];
+            String lecID = params[3];
+            String courseCode = params[4];
+            String room = params[5];
+            String loginCode = params[6];
+            String startHr = params[7];
+            String startMin = params[8];
+            String finHr = params[9];
+            String finMin = params[10];
+            String lateHr = params[11];
+            String lateMin = params[12];
+            String year = params[13];
+            String month = params[14];
+            String day = params[15];
 
             try
             {
@@ -264,9 +272,21 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
 
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
 
-                String data = URLEncoder.encode("lecturerID", "utf-8") + "=" + URLEncoder.encode(lecturerID,"utf-8") + "&" +
-                        URLEncoder.encode("moduleName", "utf-8") + "=" + URLEncoder.encode(moduleName,"utf-8") + "&" +
-                        URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8");
+                String data = URLEncoder.encode("classType", "utf-8") + "=" + URLEncoder.encode(classType,"utf-8") + "&" +
+                        URLEncoder.encode("modID", "utf-8") + "=" + URLEncoder.encode(modID,"utf-8") + "&" +
+                        URLEncoder.encode("lecID", "utf-8") + "=" + URLEncoder.encode(lecID,"utf-8") + "&" +
+                        URLEncoder.encode("courseCode", "utf-8") + "=" + URLEncoder.encode(courseCode,"utf-8") + "&" +
+                        URLEncoder.encode("room", "utf-8") + "=" + URLEncoder.encode(room,"utf-8") + "&" +
+                        URLEncoder.encode("loginCode", "utf-8") + "=" + URLEncoder.encode(loginCode,"utf-8") + "&" +
+                        URLEncoder.encode("startHr", "utf-8") + "=" + URLEncoder.encode(startHr,"utf-8") + "&" +
+                        URLEncoder.encode("startMin", "utf-8") + "=" + URLEncoder.encode(startMin,"utf-8") + "&" +
+                        URLEncoder.encode("finHr", "utf-8") + "=" + URLEncoder.encode(finHr,"utf-8") + "&" +
+                        URLEncoder.encode("finMin", "utf-8") + "=" + URLEncoder.encode(finMin,"utf-8") + "&" +
+                        URLEncoder.encode("lateHr", "utf-8") + "=" + URLEncoder.encode(lateHr,"utf-8") + "&" +
+                        URLEncoder.encode("lateMin", "utf-8") + "=" + URLEncoder.encode(lateMin,"utf-8") + "&" +
+                        URLEncoder.encode("year", "utf-8") + "=" + URLEncoder.encode(year,"utf-8") + "&" +
+                        URLEncoder.encode("month", "utf-8") + "=" + URLEncoder.encode(month,"utf-8") + "&" +
+                        URLEncoder.encode("day", "utf-8") + "=" + URLEncoder.encode(day,"utf-8");
 
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
@@ -349,6 +369,14 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             else if(code.equals("module_created"))
             {
                 showDialog("New Module Created", message,code);
+            }
+            else if(code.equals("class_created"))
+            {
+                showDialog("New Class Created", message,code);
+            }
+            else if(code.equals("class_creation_error"))
+            {
+                showDialog("Class could not be created", message,code);
             }
         }
 
@@ -461,6 +489,37 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                     activity.finish();
                     Intent intent = new Intent(activity,Main.class);
                     activity.startActivity(intent);
+                }
+            });
+        }
+
+        else if(code.equals("class_created"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    activity.finish();
+                    //Intent intent = new Intent(activity, ModuleView.class);
+                    //activity.startActivity(intent);
+                }
+            });
+        }
+
+        else if(code.equals("class_creation_error"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
                 }
             });
         }

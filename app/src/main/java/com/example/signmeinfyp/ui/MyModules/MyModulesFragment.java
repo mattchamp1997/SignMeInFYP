@@ -32,9 +32,8 @@ public class MyModulesFragment extends Fragment
 {
     private String TAG = MyModulesFragment.class.getSimpleName();
     private ListView lv;
-    String loggedIn = LoginPage.getLoggedIn();
     FloatingActionButton fab;
-
+    String loggedIn = LoginPage.getLoggedIn();
 
     ArrayList<HashMap<String, String>> moduleList;
 
@@ -55,22 +54,20 @@ public class MyModulesFragment extends Fragment
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 JSONObject module = new JSONObject(moduleList.get(position));
                 //Toast.makeText(getActivity(), module.toString(), Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(getActivity(), ModuleView.class);
                 intent.putExtra("ITEM_EXTRA", module.toString());
                 startActivity(intent);
-
-                //Intent intent = new Intent(getActivity(), ModuleView.class);
-                //getActivity().startActivity(intent);
-
             }
         });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //intent to new mod
+                //intent to create new module
                 Intent intent = new Intent(getActivity(), NewModule.class);
                 getActivity().startActivity(intent);
             }
@@ -145,9 +142,7 @@ public class MyModulesFragment extends Fragment
                             Toast.makeText(getActivity().getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
-
             }
             else {
                 Log.e(TAG, "Couldn't get json from server.");

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.signmeinfyp.HttpHandler;
+import com.example.signmeinfyp.HttpHandler2;
 import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,10 +27,21 @@ import java.util.HashMap;
 
 public class ModuleView extends AppCompatActivity
 {
+    private static String method;
+    private static String IDmodule;
+
     private String TAG = ModuleView.class.getSimpleName();
     private ListView lv1;
     FloatingActionButton fab1;
     String loggedIn = LoginPage.getLoggedIn();
+
+    private static String IDModule;
+
+    //Strings for INTENT JSON
+    String modID,lecturerID,CLcourseCode,modName;
+    
+    //Strings for LISTVIEW
+    //String classID,classType,moduleID,courseCode,room,signInCode,lecID,startHr,startMin,finHr,finMin,lateHr,lateMin,year,month,day;
 
     ArrayList<HashMap<String, String>> classList;
 
@@ -42,8 +54,6 @@ public class ModuleView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_view);
 
-        classList = new ArrayList<>();
-        lv1 = (ListView) findViewById(R.id.list1);
         fab1 = findViewById(R.id.fab1);
         tv1 = findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
@@ -51,37 +61,39 @@ public class ModuleView extends AppCompatActivity
 
         //Catch data sent in INTENT from prior CLASS
         try {
-            json = new JSONObject(getIntent().getStringExtra("ITEM_EXTRA"));
-            Log.e(TAG, "Example Item: " + json.getString("KEY"));
-            String modID = json.getString("moduleID");
-            String lecID = json.getString("lecturerID");
-            String courseCode = json.getString("classListCourseCode");
-            String modName = json.getString("moduleName");
+            String json1 = getIntent().getStringExtra("ITEM_EXTRA");
+            json = new JSONObject(json1);
+            //Log.e(TAG, "Example Item: " + json.getString("KEY"));
+
+            lecturerID = json.getString("lecturerID");
+            CLcourseCode = json.getString("classListCourseCode");
+            modName = json.getString("moduleName");
+            modID = json.getString("moduleID");
+
+            setIDModule(modID);
 
             tv1.setText(modName);
-            tv2.setText(lecID);
-            tv3.setText(courseCode);
+            tv2.setText(lecturerID);
+            tv3.setText(CLcourseCode);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        classList = new ArrayList<>();
+        lv1 = (ListView) findViewById(R.id.list1);
+
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ModuleView.this, json.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject modDetsJSON = new JSONObject();
-                //Pass mod details JSON to create class
-                try {
-                    modDetsJSON.put("modID", json.getString("moduleID"));
-                    modDetsJSON.put("lecID", json.getString("lecID"));
-                    modDetsJSON.put("courseCode", json.getString("courseCode"));
-                    modDetsJSON.put("modName", json.getString("modName"));
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent = new Intent(this, NewClass.class);
-                //intent.putExtra("ITEM_EXTRA", modDetsJSON.toString());
+                Intent intent = new Intent(ModuleView.this, NewClass.class);
+                intent.putExtra("ITEM_EXTRA", json.toString());
                 startActivity(intent);
             }
         });
@@ -100,10 +112,10 @@ public class ModuleView extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... arg0)
         {
-            HttpHandler sh1 = new HttpHandler();
+            HttpHandler2 sh1 = new HttpHandler2();
 
             // Making a request to url and getting response
-            String url = "https://mattfyp.000webhostapp.com/json_getdata.php";
+            String url = "http://mattfyp.000webhostapp.com/modviewclasses.php";
 
             String jsonStr = sh1.makeServiceCall(url);
 
@@ -117,22 +129,46 @@ public class ModuleView extends AppCompatActivity
                     // Getting JSON Array node
                     JSONArray classDetailsArr = jsonObj.getJSONArray("server_response");
 
-                    // looping through All Modules
+                    // looping through All classes
                     for (int i = 0; i < classDetailsArr.length(); i++) {
                         JSONObject c = classDetailsArr.getJSONObject(i);
-                        String modID = c.getString("moduleID");
-                        String lecID = c.getString("lecturerID");
-                        String modName = c.getString("moduleName");
-                        String courseCode = c.getString("classListCourseCode");
+                        String classID = c.getString("classID");
+                        String classType  = c.getString("classType");
+                        String moduleID = c.getString("moduleID");
+                        String courseCode = c.getString("courseCode");
+                        String room = c.getString("room");
+                        String signInCode = c.getString("signInCode");
+                        String lecID = c.getString("lecID");
+                        String startHr = c.getString("startHr");
+                        String startMin = c.getString("startMin");
+                        String finHr = c.getString("finHr");
+                        String finMin = c.getString("finMin");
+                        String lateHr = c.getString("lateHr");
+                        String lateMin = c.getString("lateMin");
+                        String year = c.getString("year");
+                        String month = c.getString("month");
+                        String day = c.getString("day");
 
-                        // tmp hash map for single module
+                        // temp hash map for single module
                         HashMap<String, String> classDets = new HashMap<>();
 
                         // adding each child node to HashMap key => value
-                        classDets.put("moduleID", modID);
-                        classDets.put("lecturerID", lecID);
-                        classDets.put("moduleName", modName);
-                        classDets.put("classListCourseCode", courseCode);
+                        classDets.put("classID", classID);
+                        classDets.put("classType", classType);
+                        classDets.put("moduleID", moduleID);
+                        classDets.put("courseCode", courseCode);
+                        classDets.put("room", room);
+                        classDets.put("signInCode", signInCode);
+                        classDets.put("lecID", lecID);
+                        classDets.put("startHr", startHr);
+                        classDets.put("startMin", startMin);
+                        classDets.put("finHr", finHr);
+                        classDets.put("finMin", finMin);
+                        classDets.put("lateHr", lateHr);
+                        classDets.put("lateMin", lateMin);
+                        classDets.put("year", year);
+                        classDets.put("month", month);
+                        classDets.put("day", day);
 
                         // adding module to module list
                         classList.add(classDets);
@@ -149,9 +185,7 @@ public class ModuleView extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
-
             }
             else {
                 Log.e(TAG, "Couldn't get json from server.");
@@ -171,8 +205,17 @@ public class ModuleView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.modName, R.id.classList});
+            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item, new String[]{ "classID","classType"}, new int[]{R.id.modName, R.id.classList});
             lv1.setAdapter(adapter);
         }
     }
+
+    public static String getIDModule() {
+        return IDModule;
+    }
+
+    public static void setIDModule(String IDModule) {
+        ModuleView.IDModule = IDModule;
+    }
+
 }
