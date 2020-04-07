@@ -205,7 +205,7 @@ public class ModuleView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item, new String[]{ "classID","classType"}, new int[]{R.id.modName, R.id.classList});
+            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item2, new String[]{ "classID","classType"}, new int[]{R.id.modName, R.id.classList});
             lv1.setAdapter(adapter);
         }
     }
