@@ -34,6 +34,7 @@ public class ModuleView extends AppCompatActivity
     private ListView lv1;
     FloatingActionButton fab1;
     String loggedIn = LoginPage.getLoggedIn();
+    String hash = "Room: ";
 
     private static String IDModule;
 
@@ -85,7 +86,10 @@ public class ModuleView extends AppCompatActivity
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ModuleView.this, json.toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(ModuleView.this, json.toString(), Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(ModuleView.this, ClassView.class);
+                //intent.putExtra("ITEM_EXTRA", json.toString());
+                //startActivity(intent);
             }
         });
 
@@ -205,7 +209,7 @@ public class ModuleView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item2, new String[]{ "classID","classType"}, new int[]{R.id.modName, R.id.classList});
+            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item3, new String[]{"room","classType","year"}, new int[]{R.id.modName, R.id.classList, R.id.classHASH});
             lv1.setAdapter(adapter);
         }
     }
