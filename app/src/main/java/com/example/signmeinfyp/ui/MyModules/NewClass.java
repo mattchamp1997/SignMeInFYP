@@ -171,8 +171,6 @@ public class NewClass extends AppCompatActivity
                     String mon = Integer.toString(month);
                     String dy = Integer.toString(day);
 
-                    //Toast.makeText(NewClass.this,method+" " +classType+" " +modID+" " +lecID+" " +courseCode+" " +room_num+" " +login+" " +start_hr+" " +start_min+" " +
-                    //        fin_hr+" " +fin_min+" " +late_hr+" " +late_min+" " +yr+" " +mon+" " +dy,Toast.LENGTH_LONG).show();
                     BackgroundTask backgroundTask = new BackgroundTask(NewClass.this);
                     backgroundTask.execute(method,classType,modID,lecID,courseCode,room_num,login,start_hr,start_min,fin_hr,fin_min,late_hr,late_min,yr,mon,dy);
                 }

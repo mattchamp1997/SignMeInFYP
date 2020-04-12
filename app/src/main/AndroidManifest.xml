@@ -37,6 +37,8 @@
             android:label="Module View"/>
         <activity android:name=".ui.MyModules.NewClass"
             android:label="New Class"/>
+        <activity android:name=".SignIn"
+            android:label="Sign In"/>
 
     </application>
 

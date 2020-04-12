@@ -116,7 +116,7 @@ public class DisplayListView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(DisplayListView.this, moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.modName, R.id.classList});
+            SimpleAdapter adapter = new SimpleAdapter(DisplayListView.this, moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.classType, R.id.roomNum});
             lv.setAdapter(adapter);
         }
     }

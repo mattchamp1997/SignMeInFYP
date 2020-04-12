@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.signmeinfyp.HttpHandler;
 import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
-import com.example.signmeinfyp.ui.MyModules.NewModule.NewModule;
+import com.example.signmeinfyp.SignIn;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -53,10 +53,9 @@ public class MyModulesFragment extends Fragment
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 JSONObject module = new JSONObject(moduleList.get(position));
-                //Toast.makeText(getActivity(), module.toString(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getActivity(), ModuleView.class);
                 intent.putExtra("ITEM_EXTRA", module.toString());
@@ -68,7 +67,7 @@ public class MyModulesFragment extends Fragment
             @Override
             public void onClick(View v) {
                 //intent to create new module
-                Intent intent = new Intent(getActivity(), NewModule.class);
+                Intent intent = new Intent(getActivity(), SignIn.class);
                 getActivity().startActivity(intent);
             }
         });
@@ -162,7 +161,7 @@ public class MyModulesFragment extends Fragment
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.modName, R.id.classList});
+            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.classType, R.id.roomNum});
             lv.setAdapter(adapter);
         }
     }

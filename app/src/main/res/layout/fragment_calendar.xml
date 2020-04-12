@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/date" />
 
         <TextView
-            android:id="@+id/modName"
+            android:id="@+id/classType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -56,7 +56,7 @@
             android:text="Class Type"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/modName" />
+            app:layout_constraintTop_toBottomOf="@+id/classType" />
 
         <TextView
             android:id="@+id/room"

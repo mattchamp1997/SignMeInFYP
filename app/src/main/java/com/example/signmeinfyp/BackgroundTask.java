@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -332,7 +331,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             //Line to remove HTML tags from JSON
             String nohtml = android.text.Html.fromHtml(json).toString();
 
-            Toast.makeText(ctx,nohtml,Toast.LENGTH_LONG).show();
+            //Toast.makeText(ctx,nohtml,Toast.LENGTH_LONG).show();
 
             JSONObject jsonObject = new JSONObject(nohtml);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");

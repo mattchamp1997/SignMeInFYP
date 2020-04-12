@@ -209,7 +209,7 @@ public class ModuleView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item3, new String[]{"room","classType","year"}, new int[]{R.id.modName, R.id.classList, R.id.classHASH});
+            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item3, new String[]{"classType","room","startHr","startMin","finHr","finMin","day","month","year"}, new int[]{R.id.classType, R.id.roomNum, R.id.startHr, R.id.startMin, R.id.finishHr,R.id.finishMin, R.id.day,R.id.month,R.id.year});
             lv1.setAdapter(adapter);
         }
     }

@@ -5,21 +5,21 @@
     android:orientation="vertical"
     android:padding="@dimen/activity_horizontal_margin">
     <TextView
-        android:id="@+id/modName"
+        android:id="@+id/classType"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:textColor="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/classList"
+        android:id="@+id/roomNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/classHASH"
+        android:id="@+id/startHr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
