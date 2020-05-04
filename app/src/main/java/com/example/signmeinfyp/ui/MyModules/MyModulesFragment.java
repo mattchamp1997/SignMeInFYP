@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.signmeinfyp.HttpHandler;
 import com.example.signmeinfyp.LoginPage;
 import com.example.signmeinfyp.R;
-import com.example.signmeinfyp.SignIn;
+import com.example.signmeinfyp.ui.MyModules.NewModule.NewModule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -67,7 +67,7 @@ public class MyModulesFragment extends Fragment
             @Override
             public void onClick(View v) {
                 //intent to create new module
-                Intent intent = new Intent(getActivity(), SignIn.class);
+                Intent intent = new Intent(getActivity(), NewModule.class);
                 getActivity().startActivity(intent);
             }
         });

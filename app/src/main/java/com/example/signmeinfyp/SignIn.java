@@ -24,6 +24,7 @@ public class SignIn extends AppCompatActivity
         or = findViewById(R.id.or);
         tapTo = findViewById(R.id.tap);
         nfc = findViewById(R.id.image);
+        nfc.setImageResource(R.drawable.nfclogo);
     }
 
 }

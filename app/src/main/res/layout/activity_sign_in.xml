@@ -58,11 +58,11 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="115dp"
-        android:layout_height="109dp"
+        android:layout_width="176dp"
+        android:layout_height="137dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tap"
-        app:srcCompat="@drawable/nfc_logo" />
+        app:srcCompat="@drawable/nfclogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

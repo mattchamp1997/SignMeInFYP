@@ -331,8 +331,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             //Line to remove HTML tags from JSON
             String nohtml = android.text.Html.fromHtml(json).toString();
 
-            //Toast.makeText(ctx,nohtml,Toast.LENGTH_LONG).show();
-
             JSONObject jsonObject = new JSONObject(nohtml);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
 
