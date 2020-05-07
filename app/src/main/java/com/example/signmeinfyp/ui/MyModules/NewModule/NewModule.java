@@ -24,7 +24,7 @@ public class NewModule extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newmod);
 
-        modname = findViewById(R.id.classType);
+        modname = findViewById(R.id.classTypes);
         lecId = findViewById(R.id.lecID);
         courseCode = findViewById(R.id.courseCode);
         create = findViewById(R.id.createBtn);

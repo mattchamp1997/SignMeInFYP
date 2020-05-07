@@ -58,9 +58,6 @@ public class HttpHandler
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
-
-        //String nohtml = android.text.Html.fromHtml(response).toString();
-
         return response;
     }
 
@@ -82,7 +79,6 @@ public class HttpHandler
                 e.printStackTrace();
             }
         }
-
         return sb.toString();
     }
 }

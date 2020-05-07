@@ -17,10 +17,4 @@
         android:label="@string/menu_calendar"
         tools:layout="@layout/fragment_calendar" />
 
-    <fragment
-        android:id="@+id/Settings"
-        android:name="com.example.signmeinfyp.ui.Settings.SettingsFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
-
 </navigation>

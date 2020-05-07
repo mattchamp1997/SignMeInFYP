@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/date" />
 
         <TextView
-            android:id="@+id/classType"
+            android:id="@+id/classTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/classType"
+            android:id="@+id/classTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -56,7 +56,7 @@
             android:text="Class Type"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/classType" />
+            app:layout_constraintTop_toBottomOf="@+id/classTypes" />
 
         <TextView
             android:id="@+id/room"
@@ -67,7 +67,7 @@
             android:text="Room:"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/classType" />
+            app:layout_constraintTop_toBottomOf="@+id/classTypes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

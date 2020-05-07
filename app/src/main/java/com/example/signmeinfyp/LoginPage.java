@@ -14,7 +14,10 @@ public class LoginPage extends AppCompatActivity
 {
     EditText LoginIdNumber, LoginPassword;
     Button loginButton, registerButton;
+
     private static String loggedIn;
+    private static String userType;
+
     AlertDialog.Builder builder;
 
     @Override
@@ -79,5 +82,13 @@ public class LoginPage extends AppCompatActivity
 
     public void setLoggedIn(String loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public static String getUserType() {
+        return userType;
+    }
+
+    public static void setUserType(String userType) {
+        LoginPage.userType = userType;
     }
 }

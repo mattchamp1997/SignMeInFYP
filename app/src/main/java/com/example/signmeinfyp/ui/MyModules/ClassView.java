@@ -23,7 +23,6 @@ public class ClassView extends AppCompatActivity
         try {
             String json1 = getIntent().getStringExtra("ITEM_EXTRA");
             json = new JSONObject(json1);
-            //Log.e(TAG, "Example Item: " + json.getString("KEY"));
 
             lecturerID = json.getString("lecturerID");
             CLcourseCode = json.getString("classListCourseCode");

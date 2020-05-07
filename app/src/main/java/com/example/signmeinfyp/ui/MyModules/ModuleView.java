@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -40,9 +39,6 @@ public class ModuleView extends AppCompatActivity
 
     //Strings for INTENT JSON
     String modID,lecturerID,CLcourseCode,modName;
-    
-    //Strings for LISTVIEW
-    //String classID,classType,moduleID,courseCode,room,signInCode,lecID,startHr,startMin,finHr,finMin,lateHr,lateMin,year,month,day;
 
     ArrayList<HashMap<String, String>> classList;
 
@@ -56,6 +52,8 @@ public class ModuleView extends AppCompatActivity
         setContentView(R.layout.activity_module_view);
 
         fab1 = findViewById(R.id.fab1);
+        fab1.setVisibility(View.INVISIBLE);
+
         tv1 = findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
         tv3 = findViewById(R.id.tv3);
@@ -64,7 +62,6 @@ public class ModuleView extends AppCompatActivity
         try {
             String json1 = getIntent().getStringExtra("ITEM_EXTRA");
             json = new JSONObject(json1);
-            //Log.e(TAG, "Example Item: " + json.getString("KEY"));
 
             lecturerID = json.getString("lecturerID");
             CLcourseCode = json.getString("classListCourseCode");
@@ -83,7 +80,7 @@ public class ModuleView extends AppCompatActivity
         classList = new ArrayList<>();
         lv1 = (ListView) findViewById(R.id.list1);
 
-        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ModuleView.this, json.toString(), Toast.LENGTH_LONG).show();
@@ -91,16 +88,22 @@ public class ModuleView extends AppCompatActivity
                 //intent.putExtra("ITEM_EXTRA", json.toString());
                 //startActivity(intent);
             }
-        });
+        });*/
 
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ModuleView.this, NewClass.class);
-                intent.putExtra("ITEM_EXTRA", json.toString());
-                startActivity(intent);
-            }
-        });
+        if(LoginPage.getUserType().equals("Lecturer"))
+        {
+            fab1.setVisibility(View.VISIBLE);
+
+            fab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ModuleView.this, NewClass.class);
+                    intent.putExtra("ITEM_EXTRA", json.toString());
+                    startActivity(intent);
+                }
+            });
+        }
+
 
         new GetClassDets().execute();
     }
@@ -109,8 +112,6 @@ public class ModuleView extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //Toast.makeText(ModuleView.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
-
         }
 
         @Override
@@ -186,7 +187,7 @@ public class ModuleView extends AppCompatActivity
                     {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "You have no classes for this module.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -198,7 +199,7 @@ public class ModuleView extends AppCompatActivity
                 {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),"Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -209,7 +210,7 @@ public class ModuleView extends AppCompatActivity
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item3, new String[]{"classType","room","startHr","startMin","finHr","finMin","day","month","year","moduleName"}, new int[]{R.id.classType, R.id.roomNum, R.id.startHr, R.id.startMin, R.id.finishHr,R.id.finishMin, R.id.day,R.id.month,R.id.year,R.id.modName});
+            SimpleAdapter adapter = new SimpleAdapter(ModuleView.this, classList, R.layout.list_item3, new String[]{"classType","room","startHr","startMin","finHr","finMin","day","month","year","moduleName"}, new int[]{R.id.classTypes, R.id.roomNum, R.id.startHr, R.id.startMin, R.id.finishHr,R.id.finishMin, R.id.day,R.id.month,R.id.year,R.id.modName});
             lv1.setAdapter(adapter);
         }
     }

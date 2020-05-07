@@ -50,6 +50,7 @@ public class MyModulesFragment extends Fragment
         moduleList = new ArrayList<>();
         lv = (ListView)view.findViewById(R.id.list);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,14 +64,19 @@ public class MyModulesFragment extends Fragment
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //intent to create new module
-                Intent intent = new Intent(getActivity(), NewModule.class);
-                getActivity().startActivity(intent);
-            }
-        });
+        if(LoginPage.getUserType().equals("Lecturer"))
+        {
+            fab.setVisibility(View.VISIBLE);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //intent to create new module
+                    Intent intent = new Intent(getActivity(), NewModule.class);
+                    getActivity().startActivity(intent);
+                }
+            });
+        }
 
         new GetModDets().execute();
     }
@@ -161,7 +167,7 @@ public class MyModulesFragment extends Fragment
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.classType, R.id.roomNum});
+            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), moduleList, R.layout.list_item, new String[]{ "moduleName","classListCourseCode"}, new int[]{R.id.classTypes, R.id.roomNum});
             lv.setAdapter(adapter);
         }
     }

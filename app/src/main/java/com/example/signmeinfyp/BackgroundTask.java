@@ -32,6 +32,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
     String login_url = "http://mattfyp.000webhostapp.com/login.php";
     String newmodule_url = "http://mattfyp.000webhostapp.com/newmodule.php";
     String newClass_url = "http://mattfyp.000webhostapp.com/newclass.php";
+    String attendance_url = "https://mattfyp.000webhostapp.com/signInStudent.php";
 
     Context ctx;
     Activity activity;
@@ -319,6 +320,63 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 e.printStackTrace();
             }
         }
+        else if(method.equals("classLogin"))
+        {
+            String classID,studentID,attendance;
+            classID = params[1];
+            studentID = params[2];
+            attendance = params[3];
+
+            try
+            {
+                URL url = new URL(attendance_url);
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
+
+                String data = URLEncoder.encode("classID", "utf-8") + "=" + URLEncoder.encode(classID,"utf-8") + "&" +
+                        URLEncoder.encode("studentID", "utf-8") + "=" + URLEncoder.encode(studentID,"utf-8") + "&" +
+                        URLEncoder.encode("attended", "utf-8") + "=" + URLEncoder.encode(attendance,"utf-8");
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+
+                outputStream.close();
+
+                //Get server response - successful insert or not
+                InputStream inputStream = httpURLConnection.getInputStream();
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = "";
+
+                while ((line=bufferedReader.readLine()) !=null)
+                {
+                    stringBuilder.append(line+"\n");
+                }
+
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         return null;
     }
@@ -348,6 +406,9 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             }
             else if(code.equals("login_true"))
             {
+                String userType = JO.getString("userType");
+                LoginPage.setUserType(userType);
+
                 Intent intent = new Intent(activity, Main.class);
                 activity.startActivity(intent);
             }
@@ -374,6 +435,14 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
             else if(code.equals("class_creation_error"))
             {
                 showDialog("Class could not be created", message,code);
+            }
+            else if(code.equals("signIn_false"))
+            {
+                showDialog("Sign-In has failed", message,code);
+            }
+            else if(code.equals("signIn_true"))
+            {
+                showDialog("Sign-In Successful", message,code);
             }
         }
 
@@ -408,7 +477,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 }
             });
         }
-
         else if(code.equals("reg_false"))
         {
             builder.setMessage(message);
@@ -501,8 +569,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 {
                     dialog.dismiss();
                     activity.finish();
-                    //Intent intent = new Intent(activity, ModuleView.class);
-                    //activity.startActivity(intent);
                 }
             });
         }
@@ -517,6 +583,39 @@ public class BackgroundTask extends AsyncTask<String,Void,String>
                 public void onClick(DialogInterface dialog, int which)
                 {
                     dialog.dismiss();
+                }
+            });
+        }
+
+        else if(code.equals("signIn_false"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    activity.finish();
+                }
+            });
+        }
+
+        else if(code.equals("signIn_true"))
+        {
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                    activity.finish();
+
+                    Intent intent = new Intent(activity, Main.class);
+                    activity.startActivity(intent);
                 }
             });
         }

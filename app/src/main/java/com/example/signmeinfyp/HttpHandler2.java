@@ -36,9 +36,6 @@ public class HttpHandler2
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
 
-            //httpURLConnection.setDoOutput(true);
-            //httpURLConnection.setDoInput(true);
-
             OutputStream outputStream = httpURLConnection.getOutputStream();
 
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "utf-8"));
@@ -48,8 +45,6 @@ public class HttpHandler2
             bufferedWriter.write(data);
             bufferedWriter.flush();
             bufferedWriter.close();
-
-            //outputStream.close();
 
             // read the response
             InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());

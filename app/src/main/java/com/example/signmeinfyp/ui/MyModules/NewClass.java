@@ -35,7 +35,6 @@ public class NewClass extends AppCompatActivity
 
     String modID,lecID,courseCode,modName;
     JSONObject json;
-    //private String TAG = NewClass.class.getSimpleName();
 
     int startHr, startMin, finHr, finMin, lateHr, lateMin;
     int year, month, day;
@@ -49,19 +48,19 @@ public class NewClass extends AppCompatActivity
         try {
             String json1 = getIntent().getStringExtra("ITEM_EXTRA");
             json = new JSONObject(json1);
-            //Log.e(TAG, "Example Item: " + json.getString("KEY"));
 
             lecID = json.getString("lecturerID");
             courseCode = json.getString("classListCourseCode");
             modName = json.getString("moduleName");
             modID = json.getString("moduleID");
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
 
         room = findViewById(R.id.room);
         loginCode = findViewById(R.id.loginCode);
-        classType = findViewById(R.id.classType);
+        classType = findViewById(R.id.classTypes);
 
         dateTV = findViewById(R.id.dateTV);
         timeTV = findViewById(R.id.timeTV);
@@ -180,15 +179,18 @@ public class NewClass extends AppCompatActivity
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
+                final Calendar calendar = Calendar.getInstance();
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewClass.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                dateTV.setText("Date: " + day + "/" + (month + 1) + "/" + year);
+                            public void onDateSet(DatePicker datePicker, int yearr, int monthh, int dayy) {
+                                dateTV.setText("Date: " + dayy + "/" + (monthh + 1) + "/" + yearr);
+                                year = yearr;
+                                month = monthh;
+                                day = dayy;
                             }
                         }, year, month, day);
 

@@ -13,14 +13,4 @@
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="Calendar" />
     </group>
-
-    <item android:title="Manage">
-        <menu>
-            <item
-                android:id="@+id/Settings"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Settings" />
-        </menu>
-    </item>
-
 </menu>

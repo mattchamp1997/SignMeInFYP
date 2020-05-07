@@ -50,18 +50,28 @@ public class CalendarFragment extends Fragment {
         calendarList = new ArrayList<>();
         lv = (ListView)view.findViewById(R.id.list);
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                JSONObject classInfo = new JSONObject(calendarList.get(position));
+        if(LoginPage.getUserType().equals("Student"))
+        {
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    JSONObject classInfo = new JSONObject(calendarList.get(position));
 
-                Intent intent = new Intent(getActivity(), SignIn.class);
-                intent.putExtra("ITEM_EXTRA", classInfo.toString());
-                startActivity(intent);
-            }
-        });
+                    Intent intent = new Intent(getActivity(), SignIn.class);
+                    intent.putExtra("ITEM_EXTRA", classInfo.toString());
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+        /*if(LoginPage.getUserType().equals("Lecturer"))
+        {
+            fab.setVisibility(View.VISIBLE);
+        }*/
 
         new CalendarFragment.CalendarDets().execute();
     }
@@ -83,8 +93,6 @@ public class CalendarFragment extends Fragment {
         {
             HttpHandler sh = new HttpHandler();
 
-            // Making a request to url and getting response
-            //Make PHP for Calendar
             String url = "https://mattfyp.000webhostapp.com/calendar.php";
 
             String jsonStr = sh.makeServiceCall(url);
@@ -179,7 +187,7 @@ public class CalendarFragment extends Fragment {
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
-            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), calendarList, R.layout.list_item4, new String[]{"moduleName","classType","room","startHr","startMin","finHr","finMin","day","month","year"}, new int[]{R.id.modName, R.id.classType, R.id.roomNum, R.id.startHr, R.id.startMin, R.id.finishHr,R.id.finishMin, R.id.day,R.id.month,R.id.year});
+            SimpleAdapter adapter = new SimpleAdapter(getActivity().getApplicationContext(), calendarList, R.layout.list_item4, new String[]{"moduleName","classType","room","startHr","startMin","finHr","finMin","day","month","year"}, new int[]{R.id.modName, R.id.classTypes, R.id.roomNum, R.id.startHr, R.id.startMin, R.id.finishHr,R.id.finishMin, R.id.day,R.id.month,R.id.year});
             lv.setAdapter(adapter);
         }
     }
